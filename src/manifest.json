@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "short_name": "mbsrvm",
+  "version": "0.1.0",
+  "minimum_chrome_version": "120",
+  "name": "Mobius Revamp",
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "css": ["main.css"],
+      "js": ["injection.js"],
+      "matches": ["https://*.mobius.cloud/qbeditor/*", "https://*.mobius.cloud/*/addquestion", "https://*.blank.page/"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["main.css", "main.js"],
+      "matches": ["https://*.mobius.cloud/*", "https://blank.page/*"]
+    }
+  ]
+}

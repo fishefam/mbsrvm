@@ -5,7 +5,7 @@ import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
 import webext from 'web-ext'
 
-import BASE_OPTION from './esbuild.config.js'
+import BASE_OPTION from './build.config.js'
 
 main()
 

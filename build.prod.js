@@ -1,6 +1,6 @@
 import esbuild from 'esbuild'
 
-import BASE_OPTION from './esbuild.config.js'
+import BASE_OPTION from './build.config.js'
 
 esbuild.build({
   ...BASE_OPTION,
