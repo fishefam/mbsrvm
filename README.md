@@ -8,10 +8,16 @@ Implement a new user interface for Mobius's editor
 - pnpm (>=8)
 - firefox & chrome (>=120)
 
+## Important
+
+This extension uses manifest v3 for both Firefox and Chromium. Firefox user must give permission on first use.
+
 ## Main Dependencies
 
 - React
-- Slate
+- Tailwindcss
+- Sass
+- Slatejs
 - Codemirror-react
 - Shadcn/Radix-ui
 - Lucid-react

@@ -9,6 +9,9 @@ import BASE_OPTION from './.esbuildrc.js'
 
 main()
 
+/**
+ * Entry point function.
+ */
 async function main() {
   let isInit = true
   const port = await getPort(8000)
@@ -22,6 +25,12 @@ async function main() {
   context.watch()
 }
 
+/**
+ * WebExt plugin for esbuild.
+ * @param {boolean} isInit - Whether it is the initial build.
+ * @param {number} port - The port number for the server.
+ * @returns {import('esbuild').Plugin} The esbuild plugin.
+ */
 function webext(isInit, port) {
   return {
     name: 'webext',
@@ -33,6 +42,10 @@ function webext(isInit, port) {
   }
 }
 
+/**
+ * Start the web extension.
+ * @param {number} port - The port number for the server.
+ */
 async function startWebext(port) {
   const run = await cmd.run({
     args: [`-new-tab=http://localhost:${port}`, '-devtools'],
@@ -48,6 +61,10 @@ async function startWebext(port) {
   })
 }
 
+/**
+ * Get the path to the Firefox executable based on the operating system.
+ * @returns {string | undefined} The path to the Firefox executable or undefined if not found.
+ */
 function getFirefoxExecutablePath() {
   const system = type()
   if (system === 'Darwin') return '/Applications/Firefox.app/Contents/MacOS/firefox'
@@ -66,6 +83,10 @@ function getFirefoxExecutablePath() {
   }
 }
 
+/**
+ * Get the path to the Firefox profile based on the operating system.
+ * @returns {string | undefined} The path to the Firefox profile or undefined if not found.
+ */
 function getFirefoxProfilePath() {
   const system = type()
   if (system === 'Windows_NT') {
