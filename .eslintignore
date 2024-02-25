@@ -2,6 +2,7 @@
 .husky
 .prettierignore
 *.json
+*lock*
 asset
 dist
 node_modules
