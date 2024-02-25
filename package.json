@@ -40,9 +40,13 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "lucide-react": "^0.338.0",
+    "lucide-react": "^0.340.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "shorthash2": "^1.0.3"
+    "shorthash2": "^1.0.3",
+    "slate": "^0.102.0",
+    "slate-history": "^0.100.0",
+    "slate-hyperscript": "^0.100.0",
+    "slate-react": "^0.102.0"
   }
 }
