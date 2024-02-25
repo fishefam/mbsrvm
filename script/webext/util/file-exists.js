@@ -1,5 +1,6 @@
-import { fs } from 'mz';
-import { isErrorWithCode } from '../errors.js';
+import { fs } from 'mz'
+
+import { isErrorWithCode } from '../errors.js'
 
 /*
  * Resolves true if the path is a readable file.
@@ -12,17 +13,15 @@ import { isErrorWithCode } from '../errors.js';
  * }
  *
  * */
-export default async function fileExists(path, {
-  fileIsReadable = f => fs.access(f, fs.constants.R_OK)
-} = {}) {
+export default async function fileExists(path, { fileIsReadable = (f) => fs.access(f, fs.constants.R_OK) } = {}) {
   try {
-    await fileIsReadable(path);
-    const stat = await fs.stat(path);
-    return stat.isFile();
+    await fileIsReadable(path)
+    const stat = await fs.stat(path)
+    return stat.isFile()
   } catch (error) {
     if (isErrorWithCode(['EACCES', 'ENOENT'], error)) {
-      return false;
+      return false
     }
-    throw error;
+    throw error
   }
 }

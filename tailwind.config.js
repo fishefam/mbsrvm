@@ -1,10 +1,9 @@
-import { fontFamily } from 'tailwindcss/defaultTheme'
-
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: ['src/**/*.{ts,tsx}'],
+module.exports = {
+  content: ['./pages/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}', './src/**/*.{ts,tsx}'],
   darkMode: ['class'],
   plugins: [require('tailwindcss-animate')],
+  prefix: '',
   theme: {
     container: {
       center: true,
@@ -19,8 +18,8 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       borderRadius: {
-        lg: `var(--radius)`,
-        md: `calc(var(--radius) - 2px)`,
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
       colors: {
@@ -57,9 +56,6 @@ export default {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
         },
-      },
-      fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
       },
       keyframes: {
         'accordion-down': {

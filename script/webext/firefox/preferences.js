@@ -1,29 +1,35 @@
-import { WebExtError, UsageError } from '../errors.js';
-import { createLogger } from '../util/logger.js';
-const log = createLogger(import.meta.url);
-export const nonOverridablePreferences = ['devtools.debugger.remote-enabled', 'devtools.debugger.prompt-connection', 'xpinstall.signatures.required'];
+import { UsageError, WebExtError } from '../errors.js'
+import { createLogger } from '../util/logger.js'
+const log = createLogger(import.meta.url)
+export const nonOverridablePreferences = [
+  'devtools.debugger.remote-enabled',
+  'devtools.debugger.prompt-connection',
+  'xpinstall.signatures.required',
+]
 
 // Preferences Maps
 
 const prefsCommon = {
-  // Allow debug output via dump to be printed to the system console
-  'browser.dom.window.dump.enabled': true,
+  // Disable app update.
+  'app.update.enabled': false,
   // From:
   // https://firefox-source-docs.mozilla.org/toolkit/components/telemetry/internals/preferences.html#data-choices-notification
+  // Allow debug output via dump to be printed to the system console
+  'browser.dom.window.dump.enabled': true,
+  // Restore original value to avoid https://github.com/mozilla/web-ext/issues/1592
+  'browser.link.open_newwindow': 3,
   // This is the data submission master kill switch. If disabled, no policy is shown or upload takes place, ever.
   'datareporting.policy.dataSubmissionEnabled': false,
-  // Allow remote connections to the debugger.
-  'devtools.debugger.remote-enabled': true,
-  // Disable the prompt for allowing connections.
-  'devtools.debugger.prompt-connection': false,
   // Allow extensions to log messages on browser's console.
   'devtools.browserconsole.contentMessages': true,
-  // Turn off platform logging because it is a lot of info.
-  'extensions.logging.enabled': false,
+  // Disable the prompt for allowing connections.
+  'devtools.debugger.prompt-connection': false,
+  // Allow remote connections to the debugger.
+  'devtools.debugger.remote-enabled': true,
+  // Allow installing extensions dropped into the profile folder.
+  'extensions.autoDisableScopes': 10,
   // Disable extension updates and notifications.
   'extensions.checkCompatibility.nightly': false,
-  'extensions.update.enabled': false,
-  'extensions.update.notifyUser': false,
   // From:
   // http://hg.mozilla.org/mozilla-central/file/1dd81c324ac7/build/automation.py.in//l372
   // Only load extensions from the application and user profile.
@@ -33,89 +39,87 @@ const prefsCommon = {
   'extensions.getAddons.cache.enabled': false,
   // Disable intalling any distribution add-ons.
   'extensions.installDistroAddons': false,
-  // Allow installing extensions dropped into the profile folder.
-  'extensions.autoDisableScopes': 10,
-  // Disable app update.
-  'app.update.enabled': false,
-  // Allow unsigned add-ons.
-  'xpinstall.signatures.required': false,
+  // Turn off platform logging because it is a lot of info.
+  'extensions.logging.enabled': false,
+  'extensions.update.enabled': false,
+  'extensions.update.notifyUser': false,
   // browser.link.open_newwindow is changed from 3 to 2 in:
   // https://github.com/saadtazi/firefox-profile-js/blob/cafc793d940a779d280103ae17d02a92de862efc/lib/firefox_profile.js#L32
-  // Restore original value to avoid https://github.com/mozilla/web-ext/issues/1592
-  'browser.link.open_newwindow': 3
-};
+  // Allow unsigned add-ons.
+  'xpinstall.signatures.required': false,
+}
 
 // Prefs specific to Firefox for Android.
 const prefsFennec = {
   'browser.console.showInPanel': true,
   'browser.firstrun.show.uidiscovery': false,
-  'devtools.remote.usb.enabled': true
-};
+  'devtools.remote.usb.enabled': true,
+}
 
 // Prefs specific to Firefox for desktop.
 const prefsFirefox = {
-  'browser.startup.homepage': 'about:blank',
-  'startup.homepage_welcome_url': 'about:blank',
-  'startup.homepage_welcome_url.additional': '',
-  'devtools.errorconsole.enabled': true,
-  'devtools.chrome.enabled': true,
-  // From:
-  // http://hg.mozilla.org/mozilla-central/file/1dd81c324ac7/build/automation.py.in//l388
-  // Make url-classifier updates so rare that they won't affect tests.
-  'urlclassifier.updateinterval': 172800,
+  // Disable Reader Mode UI tour
+  'browser.reader.detectedFirstArticle': true,
   // Point the url-classifier to a nonexistent local URL for fast failures.
   'browser.safebrowsing.provider.0.gethashURL': 'http://localhost/safebrowsing-dummy/gethash',
   'browser.safebrowsing.provider.0.keyURL': 'http://localhost/safebrowsing-dummy/newkey',
   'browser.safebrowsing.provider.0.updateURL': 'http://localhost/safebrowsing-dummy/update',
   // Disable self repair/SHIELD
   'browser.selfsupport.url': 'https://localhost/selfrepair',
-  // Disable Reader Mode UI tour
-  'browser.reader.detectedFirstArticle': true,
+  // From:
+  // http://hg.mozilla.org/mozilla-central/file/1dd81c324ac7/build/automation.py.in//l388
+  'browser.startup.homepage': 'about:blank',
+  // (See #1114 for rationale)
+  'datareporting.policy.firstRunURL': '',
+  'devtools.chrome.enabled': true,
+  'devtools.errorconsole.enabled': true,
+  'startup.homepage_welcome_url': 'about:blank',
+  'startup.homepage_welcome_url.additional': '',
   // Set the policy firstURL to an empty string to prevent
   // the privacy info page to be opened on every "web-ext run".
-  // (See #1114 for rationale)
-  'datareporting.policy.firstRunURL': ''
-};
+  // Make url-classifier updates so rare that they won't affect tests.
+  'urlclassifier.updateinterval': 172800,
+}
 const prefs = {
   common: prefsCommon,
   fennec: prefsFennec,
-  firefox: prefsFirefox
-};
+  firefox: prefsFirefox,
+}
 
 // Module exports
 
 export function getPrefs(app = 'firefox') {
-  const appPrefs = prefs[app];
+  const appPrefs = prefs[app]
   if (!appPrefs) {
-    throw new WebExtError(`Unsupported application: ${app}`);
+    throw new WebExtError(`Unsupported application: ${app}`)
   }
   return {
     ...prefsCommon,
-    ...appPrefs
-  };
+    ...appPrefs,
+  }
 }
 export function coerceCLICustomPreference(cliPrefs) {
-  const customPrefs = {};
+  const customPrefs = {}
   for (const pref of cliPrefs) {
-    const prefsAry = pref.split('=');
+    const prefsAry = pref.split('=')
     if (prefsAry.length < 2) {
-      throw new UsageError(`Incomplete custom preference: "${pref}". ` + 'Syntax expected: "prefname=prefvalue".');
+      throw new UsageError(`Incomplete custom preference: "${pref}". ` + 'Syntax expected: "prefname=prefvalue".')
     }
-    const key = prefsAry[0];
-    let value = prefsAry.slice(1).join('=');
+    const key = prefsAry[0]
+    let value = prefsAry.slice(1).join('=')
     if (/[^\w{@}.-]/.test(key)) {
-      throw new UsageError(`Invalid custom preference name: ${key}`);
+      throw new UsageError(`Invalid custom preference name: ${key}`)
     }
     if (value === `${parseInt(value)}`) {
-      value = parseInt(value, 10);
+      value = parseInt(value, 10)
     } else if (value === 'true' || value === 'false') {
-      value = value === 'true';
+      value = value === 'true'
     }
     if (nonOverridablePreferences.includes(key)) {
-      log.warn(`'${key}' preference cannot be customized.`);
-      continue;
+      log.warn(`'${key}' preference cannot be customized.`)
+      continue
     }
-    customPrefs[`${key}`] = value;
+    customPrefs[`${key}`] = value
   }
-  return customPrefs;
+  return customPrefs
 }

@@ -1,6 +1,6 @@
 export function isTTY(stream) {
-  return stream.isTTY;
+  return stream.isTTY
 }
 export function setRawMode(stream, rawMode) {
-  stream.setRawMode(rawMode);
+  stream.setRawMode(rawMode)
 }
