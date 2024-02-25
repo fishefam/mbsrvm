@@ -9,7 +9,7 @@ const NavigationMenu = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>
 >(({ children, className, ...props }, ref) => (
   <NavigationMenuPrimitive.Root
-    className={cn('relative z-10 flex max-w-max flex-1 items-center justify-center', className)}
+    className={cn('relative flex max-w-max flex-1 items-center justify-center', className)}
     ref={ref}
     {...props}
   >
@@ -49,7 +49,7 @@ const NavigationMenuTrigger = React.forwardRef<
     {children}{' '}
     <ChevronDown
       aria-hidden="true"
-      className="relative top-[1px] ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180"
+      className="relative top-[1px] ml-1 size-3 transition duration-200 group-data-[state=open]:rotate-180"
     />
   </NavigationMenuPrimitive.Trigger>
 ))
@@ -101,7 +101,7 @@ const NavigationMenuIndicator = React.forwardRef<
     ref={ref}
     {...props}
   >
-    <div className="relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md" />
+    <div className="relative top-[60%] size-2 rotate-45 rounded-tl-sm bg-border shadow-md" />
   </NavigationMenuPrimitive.Indicator>
 ))
 NavigationMenuIndicator.displayName = NavigationMenuPrimitive.Indicator.displayName

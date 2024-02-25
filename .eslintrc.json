@@ -1,4 +1,4 @@
 {
-  "extends": "tsr",
+  "extends": ["plugin:tailwindcss/recommended", "tsr"],
   "parser": "@typescript-eslint/parser"
 }
