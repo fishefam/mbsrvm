@@ -10,7 +10,7 @@
     "baseColor": "zinc",
     "config": "tailwind.config.js",
     "css": "src/app/style.scss",
-    "cssVariables": true,
+    "cssVariables": false,
     "prefix": ""
   },
   "tsx": true
