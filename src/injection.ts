@@ -1,4 +1,4 @@
-console.log('OK HELLO WORL')
+console.log('OK HELLO WORLD NEW WITH LINT STAGED')
 const _a = {
-    b: 'fasvsdvkj',
+  b: 'fasvsdvkj',
 }
