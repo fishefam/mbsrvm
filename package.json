@@ -1,10 +1,7 @@
 {
   "author": "Truong Nguyen <trg.mnguyen@gmail.com> [https://github.com/fishefam]",
   "lint-staged": {
-    "*": [
-      "prettier --write",
-      "eslint --fix"
-    ]
+    "*": []
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
