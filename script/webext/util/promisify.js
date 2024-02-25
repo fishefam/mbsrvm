@@ -1,5 +1,5 @@
-import { promisify } from 'util';
-export const promisifyCustom = promisify.custom;
+import { promisify } from 'util'
+export const promisifyCustom = promisify.custom
 
 /*
  * A small promisify helper to make it easier to customize a
@@ -17,11 +17,11 @@ export function multiArgsPromisedFn(fn) {
     return new Promise((resolve, reject) => {
       fn(...callerArgs, (err, ...rest) => {
         if (err) {
-          reject(err);
+          reject(err)
         } else {
-          resolve(rest);
+          resolve(rest)
         }
-      });
-    });
-  };
+      })
+    })
+  }
 }

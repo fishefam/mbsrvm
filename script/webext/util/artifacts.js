@@ -1,48 +1,53 @@
-import { fs } from 'mz';
-import defaultAsyncMkdirp from 'mkdirp';
-import { UsageError, isErrorWithCode } from '../errors.js';
-import { createLogger } from './logger.js';
-const log = createLogger(import.meta.url);
-const defaultAsyncFsAccess = fs.access.bind(fs);
-export async function prepareArtifactsDir(artifactsDir, {
-  asyncMkdirp = defaultAsyncMkdirp,
-  asyncFsAccess = defaultAsyncFsAccess
-} = {}) {
+import defaultAsyncMkdirp from 'mkdirp'
+import { fs } from 'mz'
+
+import { isErrorWithCode, UsageError } from '../errors.js'
+import { createLogger } from './logger.js'
+const log = createLogger(import.meta.url)
+const defaultAsyncFsAccess = fs.access.bind(fs)
+export async function prepareArtifactsDir(
+  artifactsDir,
+  { asyncFsAccess = defaultAsyncFsAccess, asyncMkdirp = defaultAsyncMkdirp } = {},
+) {
   try {
-    const stats = await fs.stat(artifactsDir);
+    const stats = await fs.stat(artifactsDir)
     if (!stats.isDirectory()) {
-      throw new UsageError(`--artifacts-dir="${artifactsDir}" exists but it is not a directory.`);
+      throw new UsageError(`--artifacts-dir="${artifactsDir}" exists but it is not a directory.`)
     }
     // If the artifactsDir already exists, check that we have the write permissions on it.
     try {
-      await asyncFsAccess(artifactsDir, fs.W_OK);
+      await asyncFsAccess(artifactsDir, fs.W_OK)
     } catch (accessErr) {
       if (isErrorWithCode('EACCES', accessErr)) {
-        throw new UsageError(`--artifacts-dir="${artifactsDir}" exists but the user lacks ` + 'permissions on it.');
+        throw new UsageError(`--artifacts-dir="${artifactsDir}" exists but the user lacks ` + 'permissions on it.')
       } else {
-        throw accessErr;
+        throw accessErr
       }
     }
   } catch (error) {
     if (isErrorWithCode('EACCES', error)) {
       // Handle errors when the artifactsDir cannot be accessed.
-      throw new UsageError(`Cannot access --artifacts-dir="${artifactsDir}" because the user ` + `lacks permissions: ${error}`);
+      throw new UsageError(
+        `Cannot access --artifacts-dir="${artifactsDir}" because the user ` + `lacks permissions: ${error}`,
+      )
     } else if (isErrorWithCode('ENOENT', error)) {
       // Create the artifact dir if it doesn't exist yet.
       try {
-        log.debug(`Creating artifacts directory: ${artifactsDir}`);
-        await asyncMkdirp(artifactsDir);
+        log.debug(`Creating artifacts directory: ${artifactsDir}`)
+        await asyncMkdirp(artifactsDir)
       } catch (mkdirErr) {
         if (isErrorWithCode('EACCES', mkdirErr)) {
           // Handle errors when the artifactsDir cannot be created for lack of permissions.
-          throw new UsageError(`Cannot create --artifacts-dir="${artifactsDir}" because the ` + `user lacks permissions: ${mkdirErr}`);
+          throw new UsageError(
+            `Cannot create --artifacts-dir="${artifactsDir}" because the ` + `user lacks permissions: ${mkdirErr}`,
+          )
         } else {
-          throw mkdirErr;
+          throw mkdirErr
         }
       }
     } else {
-      throw error;
+      throw error
     }
   }
-  return artifactsDir;
+  return artifactsDir
 }

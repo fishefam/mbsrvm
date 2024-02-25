@@ -12,7 +12,12 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2016"
+    "target": "es2016",
+    "paths": {
+      "component/*": ["app/component/*"],
+      "store/*": ["app/store/*"],
+      "typing/*": ["app/typing/*"]
+    }
   },
   "exclude": ["node_modules", "dist"]
 }

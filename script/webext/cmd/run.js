@@ -1,191 +1,204 @@
-import { fs } from 'mz';
-import defaultBuildExtension from './build.js';
-import { showDesktopNotification as defaultDesktopNotifications } from '../util/desktop-notifier.js';
-import * as defaultFirefoxApp from '../firefox/index.js';
-import { connectWithMaxRetries as defaultFirefoxClient } from '../firefox/remote.js';
-import { createLogger } from '../util/logger.js';
-import defaultGetValidatedManifest from '../util/manifest.js';
-import { UsageError } from '../errors.js';
-import { createExtensionRunner, defaultReloadStrategy, MultiExtensionRunner as DefaultMultiExtensionRunner } from '../extension-runners/index.js';
-const log = createLogger(import.meta.url);
+import { fs } from 'mz'
+
+import { UsageError } from '../errors.js'
+import {
+  createExtensionRunner,
+  MultiExtensionRunner as DefaultMultiExtensionRunner,
+  defaultReloadStrategy,
+} from '../extension-runners/index.js'
+import * as defaultFirefoxApp from '../firefox/index.js'
+import { connectWithMaxRetries as defaultFirefoxClient } from '../firefox/remote.js'
+import { showDesktopNotification as defaultDesktopNotifications } from '../util/desktop-notifier.js'
+import { createLogger } from '../util/logger.js'
+import defaultGetValidatedManifest from '../util/manifest.js'
+import defaultBuildExtension from './build.js'
+const log = createLogger(import.meta.url)
 
 // Run command types and implementation.
 
-export default async function run({
-  artifactsDir,
-  browserConsole = false,
-  devtools = false,
-  pref,
-  firefox,
-  firefoxProfile,
-  profileCreateIfMissing,
-  keepProfileChanges = false,
-  ignoreFiles,
-  noInput = false,
-  noReload = false,
-  preInstall = false,
-  sourceDir,
-  watchFile,
-  watchIgnored,
-  startUrl,
-  target,
-  args,
-  firefoxPreview = [],
-  // Android CLI options.
-  adbBin,
-  adbHost,
-  adbPort,
-  adbDevice,
-  adbDiscoveryTimeout,
-  adbRemoveOldArtifacts,
-  firefoxApk,
-  firefoxApkComponent,
-  // Chromium CLI options.
-  chromiumBinary,
-  chromiumProfile
-}, {
-  buildExtension = defaultBuildExtension,
-  desktopNotifications = defaultDesktopNotifications,
-  firefoxApp = defaultFirefoxApp,
-  firefoxClient = defaultFirefoxClient,
-  reloadStrategy = defaultReloadStrategy,
-  MultiExtensionRunner = DefaultMultiExtensionRunner,
-  getValidatedManifest = defaultGetValidatedManifest
-} = {}) {
-  log.info(`Running web extension from ${sourceDir}`);
+export default async function run(
+  {
+    adbBin,
+    adbDevice,
+    adbDiscoveryTimeout,
+    adbHost,
+    adbPort,
+    adbRemoveOldArtifacts,
+    args,
+    artifactsDir,
+    browserConsole = false,
+    chromiumBinary,
+    chromiumProfile,
+    devtools = false,
+    firefox,
+    firefoxApk,
+    firefoxApkComponent,
+    firefoxPreview = [],
+    firefoxProfile,
+    ignoreFiles,
+    keepProfileChanges = false,
+    // Android CLI options.
+    noInput = false,
+    noReload = false,
+    pref,
+    preInstall = false,
+    profileCreateIfMissing,
+    sourceDir,
+    startUrl,
+    target,
+    // Chromium CLI options.
+    watchFile,
+    watchIgnored,
+  },
+  {
+    buildExtension = defaultBuildExtension,
+    desktopNotifications = defaultDesktopNotifications,
+    firefoxApp = defaultFirefoxApp,
+    firefoxClient = defaultFirefoxClient,
+    getValidatedManifest = defaultGetValidatedManifest,
+    MultiExtensionRunner = DefaultMultiExtensionRunner,
+    reloadStrategy = defaultReloadStrategy,
+  } = {},
+) {
+  log.info(`Running web extension from ${sourceDir}`)
   if (preInstall) {
-    log.info("Disabled auto-reloading because it's not possible with " + '--pre-install');
-    noReload = true;
+    log.info('Disabled auto-reloading because it\'s not possible with ' + '--pre-install')
+    noReload = true
   }
-  if (watchFile != null && (!Array.isArray(watchFile) || !watchFile.every(el => typeof el === 'string'))) {
-    throw new UsageError('Unexpected watchFile type');
+  if (watchFile != null && (!Array.isArray(watchFile) || !watchFile.every((el) => typeof el === 'string'))) {
+    throw new UsageError('Unexpected watchFile type')
   }
 
   // Create an alias for --pref since it has been transformed into an
   // object containing one or more preferences.
   const customPrefs = {
-    ...pref
-  };
-  if (firefoxPreview.includes('mv3')) {
-    log.info('Configuring Firefox preferences for Manifest V3');
-    customPrefs['extensions.manifestV3.enabled'] = true;
+    ...pref,
   }
-  const manifestData = await getValidatedManifest(sourceDir);
-  const profileDir = firefoxProfile || chromiumProfile;
+  if (firefoxPreview.includes('mv3')) {
+    log.info('Configuring Firefox preferences for Manifest V3')
+    customPrefs['extensions.manifestV3.enabled'] = true
+  }
+  const manifestData = await getValidatedManifest(sourceDir)
+  const profileDir = firefoxProfile || chromiumProfile
   if (profileCreateIfMissing) {
     if (!profileDir) {
-      throw new UsageError('--profile-create-if-missing requires ' + '--firefox-profile or --chromium-profile');
+      throw new UsageError('--profile-create-if-missing requires ' + '--firefox-profile or --chromium-profile')
     }
-    const isDir = fs.existsSync(profileDir);
+    const isDir = fs.existsSync(profileDir)
     if (isDir) {
-      log.info(`Profile directory ${profileDir} already exists`);
+      log.info(`Profile directory ${profileDir} already exists`)
     } else {
-      log.info(`Profile directory not found. Creating directory ${profileDir}`);
-      await fs.mkdir(profileDir);
+      log.info(`Profile directory not found. Creating directory ${profileDir}`)
+      await fs.mkdir(profileDir)
     }
   }
-  const runners = [];
+  const runners = []
   const commonRunnerParams = {
+    args,
+    desktopNotifications,
     // Common options.
-    extensions: [{
-      sourceDir,
-      manifestData
-    }],
+    extensions: [
+      {
+        manifestData,
+        sourceDir,
+      },
+    ],
     keepProfileChanges,
     startUrl,
-    args,
-    desktopNotifications
-  };
+  }
   if (!target || target.length === 0 || target.includes('firefox-desktop')) {
     const firefoxDesktopRunnerParams = {
       ...commonRunnerParams,
-      // Firefox specific CLI options.
-      firefoxBinary: firefox,
-      profilePath: firefoxProfile,
-      customPrefs,
       browserConsole,
+      customPrefs,
       devtools,
-      preInstall,
       // Firefox runner injected dependencies.
       firefoxApp,
-      firefoxClient
-    };
+      // Firefox specific CLI options.
+      firefoxBinary: firefox,
+      firefoxClient,
+      preInstall,
+      profilePath: firefoxProfile,
+    }
     const firefoxDesktopRunner = await createExtensionRunner({
+      params: firefoxDesktopRunnerParams,
       target: 'firefox-desktop',
-      params: firefoxDesktopRunnerParams
-    });
-    runners.push(firefoxDesktopRunner);
+    })
+    runners.push(firefoxDesktopRunner)
   }
   if (target && target.includes('firefox-android')) {
     const firefoxAndroidRunnerParams = {
       ...commonRunnerParams,
-      // Firefox specific CLI options.
-      profilePath: firefoxProfile,
-      customPrefs,
-      browserConsole,
-      preInstall,
-      firefoxApk,
-      firefoxApkComponent,
+      adbBin,
       adbDevice,
+      adbDiscoveryTimeout,
       adbHost,
       adbPort,
-      adbBin,
-      adbDiscoveryTimeout,
       adbRemoveOldArtifacts,
+      browserConsole,
+      buildSourceDir: (extensionSourceDir, tmpArtifactsDir) => {
+        return buildExtension(
+          {
+            // that we are going to upload on the android device.
+            artifactsDir: tmpArtifactsDir,
+            asNeeded: false,
+            ignoreFiles,
+            // Use a separate temporary directory for building the extension zip file
+            sourceDir: extensionSourceDir,
+          },
+          {
+            // Suppress the message usually logged by web-ext build.
+            showReadyMessage: false,
+          },
+        )
+      },
+      customPrefs,
+      desktopNotifications: defaultDesktopNotifications,
+      firefoxApk,
+      firefoxApkComponent,
       // Injected dependencies.
       firefoxApp,
       firefoxClient,
-      desktopNotifications: defaultDesktopNotifications,
-      buildSourceDir: (extensionSourceDir, tmpArtifactsDir) => {
-        return buildExtension({
-          sourceDir: extensionSourceDir,
-          ignoreFiles,
-          asNeeded: false,
-          // Use a separate temporary directory for building the extension zip file
-          // that we are going to upload on the android device.
-          artifactsDir: tmpArtifactsDir
-        }, {
-          // Suppress the message usually logged by web-ext build.
-          showReadyMessage: false
-        });
-      }
-    };
+      preInstall,
+      // Firefox specific CLI options.
+      profilePath: firefoxProfile,
+    }
     const firefoxAndroidRunner = await createExtensionRunner({
+      params: firefoxAndroidRunnerParams,
       target: 'firefox-android',
-      params: firefoxAndroidRunnerParams
-    });
-    runners.push(firefoxAndroidRunner);
+    })
+    runners.push(firefoxAndroidRunner)
   }
   if (target && target.includes('chromium')) {
     const chromiumRunnerParams = {
       ...commonRunnerParams,
       chromiumBinary,
-      chromiumProfile
-    };
+      chromiumProfile,
+    }
     const chromiumRunner = await createExtensionRunner({
+      params: chromiumRunnerParams,
       target: 'chromium',
-      params: chromiumRunnerParams
-    });
-    runners.push(chromiumRunner);
+    })
+    runners.push(chromiumRunner)
   }
   const extensionRunner = new MultiExtensionRunner({
     desktopNotifications,
-    runners
-  });
-  await extensionRunner.run();
+    runners,
+  })
+  await extensionRunner.run()
   if (noReload) {
-    log.info('Automatic extension reloading has been disabled');
+    log.info('Automatic extension reloading has been disabled')
   } else {
-    log.info('The extension will reload if any source file changes');
+    log.info('The extension will reload if any source file changes')
     reloadStrategy({
+      artifactsDir,
       extensionRunner,
+      ignoreFiles,
+      noInput,
       sourceDir,
       watchFile,
       watchIgnored,
-      artifactsDir,
-      ignoreFiles,
-      noInput
-    });
+    })
   }
-  return extensionRunner;
+  return extensionRunner
 }

@@ -1,11 +1,11 @@
-import ExtendableError from 'es6-error';
+import ExtendableError from 'es6-error'
 
 /*
  * Base error for all custom web-ext errors.
  */
 export class WebExtError extends ExtendableError {
   constructor(message) {
-    super(message);
+    super(message)
   }
 }
 
@@ -14,7 +14,7 @@ export class WebExtError extends ExtendableError {
  */
 export class UsageError extends WebExtError {
   constructor(message) {
-    super(message);
+    super(message)
   }
 }
 
@@ -23,7 +23,7 @@ export class UsageError extends WebExtError {
  */
 export class InvalidManifest extends UsageError {
   constructor(message) {
-    super(message);
+    super(message)
   }
 }
 
@@ -32,7 +32,7 @@ export class InvalidManifest extends UsageError {
  */
 export class RemoteTempInstallNotSupported extends WebExtError {
   constructor(message) {
-    super(message);
+    super(message)
   }
 }
 
@@ -42,14 +42,14 @@ export class RemoteTempInstallNotSupported extends WebExtError {
  */
 export class MultiExtensionsReloadError extends WebExtError {
   constructor(errorsMap) {
-    let errors = '';
+    let errors = ''
     for (const [sourceDir, error] of errorsMap) {
-      const msg = String(error);
-      errors += `\nError on extension loaded from ${sourceDir}: ${msg}\n`;
+      const msg = String(error)
+      errors += `\nError on extension loaded from ${sourceDir}: ${msg}\n`
     }
-    const message = `Reload errors: ${errors}`;
-    super(message);
-    this.errorsBySourceDir = errorsMap;
+    const message = `Reload errors: ${errors}`
+    super(message)
+    this.errorsBySourceDir = errorsMap
   }
 }
 
@@ -67,13 +67,13 @@ export class MultiExtensionsReloadError extends WebExtError {
  *
  */
 export function onlyInstancesOf(predicate, errorHandler) {
-  return error => {
+  return (error) => {
     if (error instanceof predicate) {
-      return errorHandler(error);
+      return errorHandler(error)
     } else {
-      throw error;
+      throw error
     }
-  };
+  }
 }
 
 /*
@@ -97,26 +97,26 @@ export function onlyInstancesOf(predicate, errorHandler) {
  *
  */
 export function onlyErrorsWithCode(codeWanted, errorHandler) {
-  return error => {
-    let throwError = true;
+  return (error) => {
+    let throwError = true
     if (Array.isArray(codeWanted)) {
       if (codeWanted.indexOf(error.code) !== -1 || codeWanted.indexOf(error.errno) !== -1) {
-        throwError = false;
+        throwError = false
       }
     } else if (error.code === codeWanted || error.errno === codeWanted) {
-      throwError = false;
+      throwError = false
     }
     if (throwError) {
-      throw error;
+      throw error
     }
-    return errorHandler(error);
-  };
+    return errorHandler(error)
+  }
 }
 export function isErrorWithCode(codeWanted, error) {
   if (Array.isArray(codeWanted) && codeWanted.indexOf(error.code) !== -1) {
-    return true;
+    return true
   } else if (error.code === codeWanted) {
-    return true;
+    return true
   }
-  return false;
+  return false
 }

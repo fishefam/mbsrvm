@@ -1,20 +1,21 @@
-import path from 'path';
-import multimatch from 'multimatch';
-import { createLogger } from './logger.js';
-const log = createLogger(import.meta.url);
+import multimatch from 'multimatch'
+import path from 'path'
+
+import { createLogger } from './logger.js'
+const log = createLogger(import.meta.url)
 
 // check if target is a sub directory of src
 export const isSubPath = (src, target) => {
-  const relate = path.relative(src, target);
+  const relate = path.relative(src, target)
   // same dir
   if (!relate) {
-    return false;
+    return false
   }
   if (relate === '..') {
-    return false;
+    return false
   }
-  return !relate.startsWith(`..${path.sep}`);
-};
+  return !relate.startsWith(`..${path.sep}`)
+}
 
 // FileFilter types and implementation.
 
@@ -22,39 +23,35 @@ export const isSubPath = (src, target) => {
  * Allows or ignores files.
  */
 export class FileFilter {
-  filesToIgnore;
-  sourceDir;
+  filesToIgnore
+  sourceDir
   constructor({
-    baseIgnoredPatterns = ['**/*.xpi', '**/*.zip', '**/.*',
-    // any hidden file and folder
-    '**/.*/**/*',
-    // and the content inside hidden folder
-    '**/node_modules', '**/node_modules/**/*'],
+    artifactsDir,
+    baseIgnoredPatterns = [
+      '**/*.xpi',
+      '**/*.zip',
+      '**/.*',
+      // any hidden file and folder
+      '**/.*/**/*',
+      // and the content inside hidden folder
+      '**/node_modules',
+      '**/node_modules/**/*',
+    ],
     ignoreFiles = [],
     sourceDir,
-    artifactsDir
   } = {}) {
-    sourceDir = path.resolve(sourceDir);
-    this.filesToIgnore = [];
-    this.sourceDir = sourceDir;
-    this.addToIgnoreList(baseIgnoredPatterns);
+    sourceDir = path.resolve(sourceDir)
+    this.filesToIgnore = []
+    this.sourceDir = sourceDir
+    this.addToIgnoreList(baseIgnoredPatterns)
     if (ignoreFiles) {
-      this.addToIgnoreList(ignoreFiles);
+      this.addToIgnoreList(ignoreFiles)
     }
     if (artifactsDir && isSubPath(sourceDir, artifactsDir)) {
-      artifactsDir = path.resolve(artifactsDir);
-      log.debug(`Ignoring artifacts directory "${artifactsDir}" ` + 'and all its subdirectories');
-      this.addToIgnoreList([artifactsDir, path.join(artifactsDir, '**', '*')]);
+      artifactsDir = path.resolve(artifactsDir)
+      log.debug(`Ignoring artifacts directory "${artifactsDir}" ` + 'and all its subdirectories')
+      this.addToIgnoreList([artifactsDir, path.join(artifactsDir, '**', '*')])
     }
-  }
-
-  /**
-   *  Resolve relative path to absolute path with sourceDir.
-   */
-  resolveWithSourceDir(file) {
-    const resolvedPath = path.resolve(this.sourceDir, file);
-    log.debug(`Resolved path ${file} with sourceDir ${this.sourceDir} ` + `to ${resolvedPath}`);
-    return resolvedPath;
   }
 
   /**
@@ -63,12 +60,21 @@ export class FileFilter {
   addToIgnoreList(files) {
     for (const file of files) {
       if (file.charAt(0) === '!') {
-        const resolvedFile = this.resolveWithSourceDir(file.substr(1));
-        this.filesToIgnore.push(`!${resolvedFile}`);
+        const resolvedFile = this.resolveWithSourceDir(file.substr(1))
+        this.filesToIgnore.push(`!${resolvedFile}`)
       } else {
-        this.filesToIgnore.push(this.resolveWithSourceDir(file));
+        this.filesToIgnore.push(this.resolveWithSourceDir(file))
       }
     }
+  }
+
+  /**
+   *  Resolve relative path to absolute path with sourceDir.
+   */
+  resolveWithSourceDir(file) {
+    const resolvedPath = path.resolve(this.sourceDir, file)
+    log.debug(`Resolved path ${file} with sourceDir ${this.sourceDir} ` + `to ${resolvedPath}`)
+    return resolvedPath
   }
 
   /*
@@ -82,16 +88,16 @@ export class FileFilter {
    * file in the folder that is being archived.
    */
   wantFile(filePath) {
-    const resolvedPath = this.resolveWithSourceDir(filePath);
-    const matches = multimatch(resolvedPath, this.filesToIgnore);
+    const resolvedPath = this.resolveWithSourceDir(filePath)
+    const matches = multimatch(resolvedPath, this.filesToIgnore)
     if (matches.length > 0) {
-      log.debug(`FileFilter: ignoring file ${resolvedPath}`);
-      return false;
+      log.debug(`FileFilter: ignoring file ${resolvedPath}`)
+      return false
     }
-    return true;
+    return true
   }
 }
 
 // a helper function to make mocking easier
 
-export const createFileFilter = params => new FileFilter(params);
+export const createFileFilter = (params) => new FileFilter(params)

@@ -1,10 +1,11 @@
-import { promisify } from 'util';
-import tmp from 'tmp';
-import { createLogger } from './logger.js';
-import { multiArgsPromisedFn, promisifyCustom } from './promisify.js';
-const log = createLogger(import.meta.url);
-tmp.dir[promisifyCustom] = multiArgsPromisedFn(tmp.dir);
-const createTempDir = promisify(tmp.dir);
+import tmp from 'tmp'
+import { promisify } from 'util'
+
+import { createLogger } from './logger.js'
+import { multiArgsPromisedFn, promisifyCustom } from './promisify.js'
+const log = createLogger(import.meta.url)
+tmp.dir[promisifyCustom] = multiArgsPromisedFn(tmp.dir)
+const createTempDir = promisify(tmp.dir)
 
 /*
  * Work with a self-destructing temporary directory in a promise chain.
@@ -22,10 +23,14 @@ const createTempDir = promisify(tmp.dir);
  *
  */
 export function withTempDir(makePromise) {
-  const tmpDir = new TempDir();
-  return tmpDir.create().then(() => {
-    return makePromise(tmpDir);
-  }).catch(tmpDir.errorHandler()).then(tmpDir.successHandler());
+  const tmpDir = new TempDir()
+  return tmpDir
+    .create()
+    .then(() => {
+      return makePromise(tmpDir)
+    })
+    .catch(tmpDir.errorHandler())
+    .then(tmpDir.successHandler())
 }
 
 /*
@@ -44,11 +49,11 @@ export function withTempDir(makePromise) {
  *
  */
 export class TempDir {
-  _path;
-  _removeTempDir;
+  _path
+  _removeTempDir
   constructor() {
-    this._path = undefined;
-    this._removeTempDir = undefined;
+    this._path = undefined
+    this._removeTempDir = undefined
   }
 
   /*
@@ -59,28 +64,19 @@ export class TempDir {
     return createTempDir({
       prefix: 'tmp-web-ext-',
       // This allows us to remove a non-empty tmp dir.
-      unsafeCleanup: true
+      unsafeCleanup: true,
     }).then(([tmpPath, removeTempDir]) => {
-      this._path = tmpPath;
-      this._removeTempDir = () => new Promise((resolve, reject) => {
-        // `removeTempDir` parameter is a `next` callback which
-        // is called once the dir has been removed.
-        const next = err => err ? reject(err) : resolve();
-        removeTempDir(next);
-      });
-      log.debug(`Created temporary directory: ${this.path()}`);
-      return this;
-    });
-  }
-
-  /*
-   * Get the absolute path of the temp directory.
-   */
-  path() {
-    if (!this._path) {
-      throw new Error('You cannot access path() before calling create()');
-    }
-    return this._path;
+      this._path = tmpPath
+      this._removeTempDir = () =>
+        new Promise((resolve, reject) => {
+          // `removeTempDir` parameter is a `next` callback which
+          // is called once the dir has been removed.
+          const next = (err) => (err ? reject(err) : resolve())
+          removeTempDir(next)
+        })
+      log.debug(`Created temporary directory: ${this.path()}`)
+      return this
+    })
   }
 
   /*
@@ -91,10 +87,31 @@ export class TempDir {
    * Promise().catch(tmp.errorHandler())
    */
   errorHandler() {
-    return async error => {
-      await this.remove();
-      throw error;
-    };
+    return async (error) => {
+      await this.remove()
+      throw error
+    }
+  }
+
+  /*
+   * Get the absolute path of the temp directory.
+   */
+  path() {
+    if (!this._path) {
+      throw new Error('You cannot access path() before calling create()')
+    }
+    return this._path
+  }
+
+  /*
+   * Remove the temp directory.
+   */
+  remove() {
+    if (!this._removeTempDir) {
+      return
+    }
+    log.debug(`Removing temporary directory: ${this.path()}`)
+    return this._removeTempDir && this._removeTempDir()
   }
 
   /*
@@ -104,20 +121,9 @@ export class TempDir {
    * Promise().then(tmp.successHandler())
    */
   successHandler() {
-    return async promiseResult => {
-      await this.remove();
-      return promiseResult;
-    };
-  }
-
-  /*
-   * Remove the temp directory.
-   */
-  remove() {
-    if (!this._removeTempDir) {
-      return;
+    return async (promiseResult) => {
+      await this.remove()
+      return promiseResult
     }
-    log.debug(`Removing temporary directory: ${this.path()}`);
-    return this._removeTempDir && this._removeTempDir();
   }
 }
