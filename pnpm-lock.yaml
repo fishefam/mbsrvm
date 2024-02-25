@@ -197,8 +197,8 @@ devDependencies:
     specifier: ^9.1.0
     version: 9.1.0(eslint@8.57.0)
   eslint-config-tsr:
-    specifier: ^0.1.8
-    version: 0.1.8(@stylistic/eslint-plugin@1.6.2)(@typescript-eslint/eslint-plugin@7.0.2)(eslint-plugin-hooks@0.4.3)(eslint-plugin-perfectionist@2.5.0)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint-plugin-unused-imports@3.1.0)(eslint@8.57.0)(typescript@5.3.3)
+    specifier: ^0.2.0
+    version: 0.2.0(@stylistic/eslint-plugin@1.6.2)(@typescript-eslint/eslint-plugin@7.0.2)(eslint-plugin-hooks@0.4.3)(eslint-plugin-perfectionist@2.5.0)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint-plugin-sort-react-dependency-arrays@0.3.0)(eslint-plugin-tailwindcss@3.14.3)(eslint-plugin-unused-imports@3.1.0)(eslint@8.57.0)(prettier-plugin-sort-json@3.1.0)(prettier-plugin-tailwindcss@0.5.11)(typescript@5.3.3)
   eslint-plugin-hooks:
     specifier: ^0.4.3
     version: 0.4.3
@@ -238,6 +238,9 @@ devDependencies:
   prettier:
     specifier: ^3.2.5
     version: 3.2.5
+  prettier-plugin-sort-json:
+    specifier: ^3.1.0
+    version: 3.1.0(prettier@3.2.5)
   prettier-plugin-tailwindcss:
     specifier: ^0.5.11
     version: 0.5.11(prettier@3.2.5)
@@ -4254,9 +4257,9 @@ packages:
       eslint: 8.57.0
     dev: true
 
-  /eslint-config-tsr@0.1.8(@stylistic/eslint-plugin@1.6.2)(@typescript-eslint/eslint-plugin@7.0.2)(eslint-plugin-hooks@0.4.3)(eslint-plugin-perfectionist@2.5.0)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint-plugin-unused-imports@3.1.0)(eslint@8.57.0)(typescript@5.3.3):
+  /eslint-config-tsr@0.2.0(@stylistic/eslint-plugin@1.6.2)(@typescript-eslint/eslint-plugin@7.0.2)(eslint-plugin-hooks@0.4.3)(eslint-plugin-perfectionist@2.5.0)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint-plugin-sort-react-dependency-arrays@0.3.0)(eslint-plugin-tailwindcss@3.14.3)(eslint-plugin-unused-imports@3.1.0)(eslint@8.57.0)(prettier-plugin-sort-json@3.1.0)(prettier-plugin-tailwindcss@0.5.11)(typescript@5.3.3):
     resolution:
-      { integrity: sha512-EeZ8g/p3UaUju6sb309JVsU3Ihp58Bsqjp+0DVN+doL4DwW7iq57Q7kbZcpDlqMhBFj3BmoUIaAFpbV5lN9YSA== }
+      { integrity: sha512-p9rWqqg10foWCBs1PYOwp+KmqgGZwYKhrlRSY/iBvHVwcaP199vBj79sstPLxWyj6AB2SgG8uag8DqhWZS9ijg== }
     hasBin: true
     peerDependencies:
       '@stylistic/eslint-plugin': '>=1'
@@ -4266,7 +4269,11 @@ packages:
       eslint-plugin-perfectionist: '>=2'
       eslint-plugin-react: '>=7'
       eslint-plugin-react-hooks: '>=4'
+      eslint-plugin-sort-react-dependency-arrays: '>=0'
+      eslint-plugin-tailwindcss: '>=3'
       eslint-plugin-unused-imports: '>=3'
+      prettier-plugin-sort-json: '>=3'
+      prettier-plugin-tailwindcss: '>=0'
     dependencies:
       '@stylistic/eslint-plugin': 1.6.2(eslint@8.57.0)(typescript@5.3.3)
       '@typescript-eslint/eslint-plugin': 7.0.2(@typescript-eslint/parser@7.0.2)(eslint@8.57.0)(typescript@5.3.3)
@@ -4277,7 +4284,11 @@ packages:
       eslint-plugin-perfectionist: 2.5.0(eslint@8.57.0)(typescript@5.3.3)
       eslint-plugin-react: 7.33.2(eslint@8.57.0)
       eslint-plugin-react-hooks: 4.6.0(eslint@8.57.0)
+      eslint-plugin-sort-react-dependency-arrays: 0.3.0(eslint@8.57.0)
+      eslint-plugin-tailwindcss: 3.14.3(tailwindcss@3.4.1)
       eslint-plugin-unused-imports: 3.1.0(@typescript-eslint/eslint-plugin@7.0.2)(eslint@8.57.0)
+      prettier-plugin-sort-json: 3.1.0(prettier@3.2.5)
+      prettier-plugin-tailwindcss: 0.5.11(prettier@3.2.5)
       prompts: 2.4.2
       yargs: 17.7.2
     transitivePeerDependencies:
@@ -6842,6 +6853,16 @@ packages:
     resolution:
       { integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g== }
     engines: { node: '>= 0.8.0' }
+    dev: true
+
+  /prettier-plugin-sort-json@3.1.0(prettier@3.2.5):
+    resolution:
+      { integrity: sha512-eIDEUjwzekiVd+oKrpd0aoACBTp5zOW71wDTNy+qQ5C9Q8oqt9n9wCm4F+SeRZbXfgblh/WYIguJynImlBXrvQ== }
+    engines: { node: '>=16.0.0' }
+    peerDependencies:
+      prettier: ^3.0.0
+    dependencies:
+      prettier: 3.2.5
     dev: true
 
   /prettier-plugin-tailwindcss@0.5.11(prettier@3.2.5):
