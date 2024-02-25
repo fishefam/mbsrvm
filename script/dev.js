@@ -1,49 +1,51 @@
 import { spawnSync } from 'child_process'
+import getPort from 'detect-port'
 import esbuild from 'esbuild'
 import { type } from 'os'
-import { dirname, resolve } from 'path'
-import { fileURLToPath } from 'url'
-import webext from 'web-ext'
+import { resolve } from 'path'
+import { cmd } from 'web-ext'
 
-import BASE_OPTION from './build.config.js'
+import BASE_OPTION from './.esbuildrc.js'
 
 main()
 
 async function main() {
   let isInit = true
+  const port = await getPort(8000)
   const context = await esbuild.context({
     ...BASE_OPTION,
-    plugins: [...BASE_OPTION.plugins, webextPlugin(isInit)],
+    plugins: [...BASE_OPTION.plugins, webext(isInit, port)],
     sourcemap: true,
   })
-
+  console.log('\nStarting...')
+  context.serve({ port })
   context.watch()
 }
 
-/** @returns {import('esbuild').Plugin} */
-function webextPlugin(isInit) {
+function webext(isInit, port) {
   return {
     name: 'webext',
     setup: ({ onEnd }) =>
       onEnd(() => {
-        startWebext(isInit)
+        if (isInit) startWebext(port)
         isInit = false
       }),
   }
 }
 
-function startWebext(shouldRun) {
-  if (shouldRun) {
-    webext.cmd.run(
-      {
-        args: ['-new-tab=https://blank.page', '-devtools'],
-        firefox: getFirefoxExecutablePath() || '',
-        firefoxProfile: getFirefoxProfilePath() || '',
-        sourceDir: resolve(dirname(fileURLToPath(import.meta.url)), 'dist'),
-      },
-      { shouldExitProgram: true },
-    )
-  }
+async function startWebext(port) {
+  const run = await cmd.run({
+    args: [`-new-tab=http://localhost:${port}`, '-devtools'],
+    firefox: getFirefoxExecutablePath() || '',
+    firefoxProfile: getFirefoxProfilePath() || '',
+    sourceDir: resolve(import.meta.dirname, 'dist'),
+  })
+  const { extensionRunners } = run
+  const [runner] = extensionRunners
+  runner.runningInfo.firefox.on('close', () => {
+    console.log('Cleaning up and stopping process.\n')
+    process.exit(0)
+  })
 }
 
 function getFirefoxExecutablePath() {
