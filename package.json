@@ -1,5 +1,11 @@
 {
   "author": "Truong Nguyen <trg.mnguyen@gmail.com> [https://github.com/fishefam]",
+  "lint-staged": {
+    "*": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-accordion": "^1.1.2",
@@ -81,8 +87,10 @@
     "eslint-plugin-sort-react-dependency-arrays": "^0.3.0",
     "eslint-plugin-tailwindcss": "^3.14.3",
     "eslint-plugin-unused-imports": "^3.1.0",
+    "husky": "^9.0.11",
     "i": "^0.3.7",
     "jsonminify": "^0.4.2",
+    "lint-staged": "^15.2.2",
     "npm": "^10.4.0",
     "postcss": "^8.4.35",
     "prettier": "^3.2.5",
@@ -112,7 +120,8 @@
     "groom": "prettier . --write && eslint . --fix",
     "lint:wext": "web-ext lint --source-dir dist",
     "lint": "eslint . --fix",
-    "preinstall": "npx only-allow pnpm"
+    "preinstall": "npx only-allow pnpm",
+    "prepare": "husky"
   },
   "type": "module",
   "version": "0.1.0"
