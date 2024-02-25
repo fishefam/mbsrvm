@@ -1,7 +1,7 @@
 .gitignore
 .husky
 .prettierignore
-package.json
+*.json
 asset
 dist
 node_modules
