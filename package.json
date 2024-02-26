@@ -114,9 +114,10 @@
     "url": "https://github.com/fishefam/mbsrvm.git"
   },
   "scripts": {
+    "analyze": "source-map-explorer dist/*.js --only-mapped",
+    "build:smap": "cross-env SOURCE_MAP=true node script/build",
     "build:wext": "web-ext build --source-dir dist",
     "build": "node script/build",
-    "build:sm": "cross-env SOURCE_MAP=true node script/build",
     "clean": "rimraf dist && rimraf web-ext-artifacts",
     "dev": "node script/dev",
     "format": "prettier . --write",
@@ -124,8 +125,7 @@
     "lint:wext": "web-ext lint --source-dir dist",
     "lint": "eslint . --fix",
     "preinstall": "npx only-allow pnpm",
-    "prepare": "husky",
-    "analyze": "source-map-explorer dist/*.js --only-mapped"
+    "prepare": "husky"
   },
   "type": "module",
   "version": "0.1.0"
