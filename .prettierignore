@@ -1,7 +1,7 @@
-.eslintignore
 .gitignore
 .husky
 .prettierignore
+
 asset
 dist
 node_modules

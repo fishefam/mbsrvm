@@ -10,6 +10,8 @@
 /** This is a replacement for __dirname in esmodule and it points to the current `script` direction */
 export const DIR_NAME = /** @type {const} */ (import.meta.dirname)
 
+export const TEMP_TSCONFIG_FILE = /** @type {const} */ ('tsconfig.temp.json')
+
 export const BROWSER = /** @type {const} */ ({ chromium: 'chromium', firefox: 'firefox' })
 export const BROWSERS = /** @type {const} */ (Object.values(BROWSER))
 export const DEV_HOST = /** @type {const} */ ({ host0: 'https://blank.page', localhost: 'http://localhost' })

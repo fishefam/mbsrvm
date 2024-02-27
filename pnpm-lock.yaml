@@ -172,6 +172,9 @@ devDependencies:
   '@types/firefox-webext-browser':
     specifier: ^120.0.1
     version: 120.0.1
+  '@types/micromatch':
+    specifier: ^4.0.6
+    version: 4.0.6
   '@types/node':
     specifier: ^20.11.20
     version: 20.11.20
@@ -259,6 +262,9 @@ devDependencies:
   lint-staged:
     specifier: ^15.2.2
     version: 15.2.2
+  micromatch:
+    specifier: ^4.0.5
+    version: 4.0.5
   npm:
     specifier: ^10.4.0
     version: 10.4.0
@@ -3015,6 +3021,11 @@ packages:
       defer-to-connect: 2.0.1
     dev: true
 
+  /@types/braces@3.0.4:
+    resolution:
+      { integrity: sha512-0WR3b8eaISjEW7RpZnclONaLFDf7buaowRHdqLp4vLj54AsSAYWfh3DRbfiYJY9XDxMgx1B4sE1Afw2PGpuHOA== }
+    dev: true
+
   /@types/chrome@0.0.261:
     resolution:
       { integrity: sha512-u8Nhu54/qP32fM2Ni5sdln6Evvzy2V9TJjWnFrab2GcKDpcBpJ3ZtsBUqCwaoTxada+k5Vj8Zn5g8AsdbRDqKg== }
@@ -3082,6 +3093,13 @@ packages:
     resolution:
       { integrity: sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ== }
     dev: false
+
+  /@types/micromatch@4.0.6:
+    resolution:
+      { integrity: sha512-2eulCHWqjEpk9/vyic4tBhI8a9qQEl6DaK2n/sF7TweX9YESlypgKyhXMDGt4DAOy/jhLPvVrZc8pTDAMsplJA== }
+    dependencies:
+      '@types/braces': 3.0.4
+    dev: true
 
   /@types/minimatch@3.0.5:
     resolution:
