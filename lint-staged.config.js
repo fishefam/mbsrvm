@@ -10,5 +10,7 @@ export default function config(files) {
     ...(tsFiles.length ? ['tsc --project tsconfig.temp.json'] : []),
     `prettier ${files.join(' ')} --write`,
     `eslint ${files.join(' ')} --fix`,
-  ].map((command) => `node_modules/.bin/${command}`)
+  ]
+    .map((command) => `node_modules/.bin/${command}`)
+    .concat(['node script/post-commit'])
 }
