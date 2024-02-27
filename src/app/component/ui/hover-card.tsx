@@ -1,5 +1,5 @@
 import * as HoverCardPrimitive from '@radix-ui/react-hover-card'
-import { cn } from 'lib/common'
+import { cn } from 'lib/generic'
 import * as React from 'react'
 
 const HoverCard = HoverCardPrimitive.Root

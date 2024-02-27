@@ -1,8 +1,14 @@
 .gitignore
 .husky
 .prettierignore
-*.json
-*lock*
+
 asset
 dist
 node_modules
+
+*lock*
+*.json
+*.md
+*.html
+
+!.esbuildrc.js

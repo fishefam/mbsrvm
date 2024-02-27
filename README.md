@@ -28,6 +28,7 @@ This extension uses manifest v3 for both Firefox and Chromium. Firefox user must
 - Yarn and npm can be used for non-installing scripts
 - Naming (directories, variables) is in singular form. Exception: components.json
 - Only use plural when naming array variables
+- Maximum of parameters of a function is 2. If a function has more than 2 parameters, they should be put in one single parameter object
 
 ## Install
 

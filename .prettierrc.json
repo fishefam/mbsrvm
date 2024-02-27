@@ -3,6 +3,7 @@
   "endOfLine": "lf",
   "htmlWhitespaceSensitivity": "ignore",
   "jsxSingleQuote": false,
+  "overrides": [{ "files": ["index.html"], "options": { "singleAttributePerLine": false } }],
   "plugins": ["prettier-plugin-sort-json", "prettier-plugin-tailwindcss"],
   "printWidth": 120,
   "quoteProps": "consistent",

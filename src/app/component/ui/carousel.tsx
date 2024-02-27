@@ -1,6 +1,6 @@
 import { Button } from 'app/component/ui/button'
 import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react'
-import { cn } from 'lib/common'
+import { cn } from 'lib/generic'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import * as React from 'react'
 

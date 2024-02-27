@@ -1,4 +1,4 @@
-import { cn } from 'lib/common'
+import { cn } from 'lib/generic'
 
 function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (

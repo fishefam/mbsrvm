@@ -160,6 +160,9 @@ dependencies:
     version: 3.22.4
 
 devDependencies:
+  '@prettier/sync':
+    specifier: ^0.5.1
+    version: 0.5.1(prettier@3.2.5)
   '@stylistic/eslint-plugin':
     specifier: ^1.6.2
     version: 1.6.2(eslint@8.57.0)(typescript@5.3.3)
@@ -187,6 +190,9 @@ devDependencies:
   autoprefixer:
     specifier: ^10.4.17
     version: 10.4.17(postcss@8.4.35)
+  check-internet-connected:
+    specifier: ^2.0.6
+    version: 2.0.6
   class-variance-authority:
     specifier: ^0.7.0
     version: 0.7.0
@@ -215,8 +221,8 @@ devDependencies:
     specifier: ^9.1.0
     version: 9.1.0(eslint@8.57.0)
   eslint-config-tsr:
-    specifier: ^0.2.0
-    version: 0.2.0(@stylistic/eslint-plugin@1.6.2)(@typescript-eslint/eslint-plugin@7.0.2)(eslint-plugin-hooks@0.4.3)(eslint-plugin-perfectionist@2.5.0)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint-plugin-sort-react-dependency-arrays@0.3.0)(eslint-plugin-tailwindcss@3.14.3)(eslint-plugin-unused-imports@3.1.0)(eslint@8.57.0)(prettier-plugin-sort-json@3.1.0)(prettier-plugin-tailwindcss@0.5.11)(typescript@5.3.3)
+    specifier: ^0.2.2
+    version: 0.2.2(@stylistic/eslint-plugin@1.6.2)(@typescript-eslint/eslint-plugin@7.0.2)(eslint-plugin-hooks@0.4.3)(eslint-plugin-perfectionist@2.5.0)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint-plugin-sort-react-dependency-arrays@0.3.0)(eslint-plugin-tailwindcss@3.14.3)(eslint-plugin-unused-imports@3.1.0)(eslint@8.57.0)(prettier-plugin-sort-json@3.1.0)(prettier-plugin-tailwindcss@0.5.11)(typescript@5.3.3)
   eslint-plugin-hooks:
     specifier: ^0.4.3
     version: 0.4.3
@@ -277,6 +283,9 @@ devDependencies:
   source-map-explorer:
     specifier: ^2.5.3
     version: 2.5.3
+  strip-html-comments:
+    specifier: ^1.0.0
+    version: 1.0.0
   tailwind-merge:
     specifier: ^2.2.1
     version: 2.2.1
@@ -1352,6 +1361,16 @@ packages:
       '@pnpm/config.env-replace': 1.1.0
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
+    dev: true
+
+  /@prettier/sync@0.5.1(prettier@3.2.5):
+    resolution:
+      { integrity: sha512-tpF+A1e4ynO2U4fTH21Sjgm9EYENmqg4zmJCMLrmLVfzIzuDc1cKGXyxrxbFgcH8qQRfowyDCZFAUukwhiZlsw== }
+    peerDependencies:
+      prettier: '*'
+    dependencies:
+      make-synchronized: 0.2.8
+      prettier: 3.2.5
     dev: true
 
   /@radix-ui/number@1.0.1:
@@ -4510,6 +4529,14 @@ packages:
     engines: { node: ^12.17.0 || ^14.13 || >=16.0.0 }
     dev: true
 
+  /check-internet-connected@2.0.6:
+    resolution:
+      { integrity: sha512-ZoU3ovnutroET6nWLp7zt7Er03aLQc4VqMZEBEuWhU/uI8B1x8j3v3rFcufEugNXUxZ7SPF4eMCufJ3vY7Ha2A== }
+    engines: { node: '>=8' }
+    dependencies:
+      bluebird: 3.7.2
+    dev: true
+
   /cheerio-select@2.1.0:
     resolution:
       { integrity: sha512-9v9kG0LvzrlcungtnJtpGNxY+fzECQKhK4EGJX2vByejiMX84MFNQw4UxPJl3bFbTMw+Dfs37XaIkCwTZfLh4g== }
@@ -5474,9 +5501,9 @@ packages:
       eslint: 8.57.0
     dev: true
 
-  /eslint-config-tsr@0.2.0(@stylistic/eslint-plugin@1.6.2)(@typescript-eslint/eslint-plugin@7.0.2)(eslint-plugin-hooks@0.4.3)(eslint-plugin-perfectionist@2.5.0)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint-plugin-sort-react-dependency-arrays@0.3.0)(eslint-plugin-tailwindcss@3.14.3)(eslint-plugin-unused-imports@3.1.0)(eslint@8.57.0)(prettier-plugin-sort-json@3.1.0)(prettier-plugin-tailwindcss@0.5.11)(typescript@5.3.3):
+  /eslint-config-tsr@0.2.2(@stylistic/eslint-plugin@1.6.2)(@typescript-eslint/eslint-plugin@7.0.2)(eslint-plugin-hooks@0.4.3)(eslint-plugin-perfectionist@2.5.0)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.33.2)(eslint-plugin-sort-react-dependency-arrays@0.3.0)(eslint-plugin-tailwindcss@3.14.3)(eslint-plugin-unused-imports@3.1.0)(eslint@8.57.0)(prettier-plugin-sort-json@3.1.0)(prettier-plugin-tailwindcss@0.5.11)(typescript@5.3.3):
     resolution:
-      { integrity: sha512-p9rWqqg10foWCBs1PYOwp+KmqgGZwYKhrlRSY/iBvHVwcaP199vBj79sstPLxWyj6AB2SgG8uag8DqhWZS9ijg== }
+      { integrity: sha512-qKAaL2PBCFN6BEvaB8WRbkbwq9EubShe9072MJ6cL+UB1H8NyBNisHEPf2uLNADHIKXu82ycFiyVYDpgyro19g== }
     hasBin: true
     peerDependencies:
       '@stylistic/eslint-plugin': '>=1'
@@ -7328,6 +7355,11 @@ packages:
   /make-error@1.3.6:
     resolution:
       { integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw== }
+    dev: true
+
+  /make-synchronized@0.2.8:
+    resolution:
+      { integrity: sha512-jtXnKYCxjmGaXiZhXbDbGPbh4YyTvIIbOgcQjtAboc4RSm9k3nyhTFvFQB0cfs7QFKuZXKe2D2RvOkv1c+vpxg== }
     dev: true
 
   /map-age-cleaner@0.1.3:
@@ -9390,6 +9422,11 @@ packages:
     resolution:
       { integrity: sha512-dOESqjYr96iWYylGObzd39EuNTa5VJxyvVAEm5Jnh7KGo75V43Hk1odPQkNDyXNmUR6k+gEiDVXnjB8HJ3crXw== }
     engines: { node: '>=12' }
+    dev: true
+
+  /strip-html-comments@1.0.0:
+    resolution:
+      { integrity: sha512-SdeXvMv7YtmePsVLNwg9yvaU37UVos4hryT82Lyyrl3IYb+hAwPLs6SmxMPs5tB8VdA01KPKaiMBcR0oErR5BQ== }
     dev: true
 
   /strip-json-comments@2.0.1:

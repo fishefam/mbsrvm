@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/chrome-manifest.json",
+  "background": { "scripts": ["background.js"] },
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "js": ["injection.js"],
+      "matches": ["*://%%DO_NOT_CHANGE_THIS_LINE%%/"],
+      "run_at": "document_start"
+    }
+  ],
+  "manifest_version": 2,
+  "name": "Mobius Revamp",
+  "short_name": "mbsrvm",
+  "version": "0.1.0",
+  "web_accessible_resources": ["*"]
+}

@@ -1,5 +1,5 @@
 import { buttonVariants } from 'app/component/ui/button'
-import { cn } from 'lib/common'
+import { cn } from 'lib/generic'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import * as React from 'react'
 import { DayPicker } from 'react-day-picker'

@@ -1,5 +1,5 @@
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
-import { cn } from 'lib/common'
+import { cn } from 'lib/generic'
 import { ChevronDown } from 'lucide-react'
 import * as React from 'react'
 

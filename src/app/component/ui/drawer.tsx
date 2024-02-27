@@ -1,4 +1,4 @@
-import { cn } from 'lib/common'
+import { cn } from 'lib/generic'
 import * as React from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
 

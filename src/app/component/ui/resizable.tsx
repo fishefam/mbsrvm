@@ -1,4 +1,4 @@
-import { cn } from 'lib/common'
+import { cn } from 'lib/generic'
 import { GripVertical } from 'lucide-react'
 import * as ResizablePrimitive from 'react-resizable-panels'
 

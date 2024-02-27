@@ -1,5 +1,5 @@
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group'
-import { cn } from 'lib/common'
+import { cn } from 'lib/generic'
 import { Circle } from 'lucide-react'
 import * as React from 'react'
 

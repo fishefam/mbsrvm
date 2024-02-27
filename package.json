@@ -4,7 +4,8 @@
     "*": [
       "prettier --write",
       "eslint --fix"
-    ]
+    ],
+    "*.{ts,tsx}": "tsc --noEmit --skipLibCheck --target es2016 --skipDefaultLibCheck --module commonjs --moduleResolution node --jsx react-jsx --allowSyntheticDefaultImports --esModuleInterop --baseUrl src"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -61,6 +62,7 @@
   },
   "description": "Revamp Mobius's editor",
   "devDependencies": {
+    "@prettier/sync": "^0.5.1",
     "@stylistic/eslint-plugin": "^1.6.2",
     "@types/chrome": "^0.0.261",
     "@types/firefox-webext-browser": "^120.0.1",
@@ -70,6 +72,7 @@
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "autoprefixer": "^10.4.17",
+    "check-internet-connected": "^2.0.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cross-env": "^7.0.3",
@@ -79,7 +82,7 @@
     "esbuild-style-plugin": "^1.6.3",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-config-tsr": "^0.2.0",
+    "eslint-config-tsr": "^0.2.2",
     "eslint-plugin-hooks": "^0.4.3",
     "eslint-plugin-perfectionist": "^2.5.0",
     "eslint-plugin-react": "^7.33.2",
@@ -100,6 +103,7 @@
     "rimraf": "^5.0.5",
     "sass": "^1.71.1",
     "source-map-explorer": "^2.5.3",
+    "strip-html-comments": "^1.0.0",
     "tailwind-merge": "^2.2.1",
     "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
@@ -115,17 +119,18 @@
   },
   "scripts": {
     "analyze": "source-map-explorer dist/*.js --only-mapped",
-    "build:smap": "cross-env SOURCE_MAP=true node script/build",
+    "build:smap": "cross-env SOURCE_MAP=true node script/production",
     "build:wext": "web-ext build --source-dir dist",
-    "build": "node script/build",
+    "build": "node script/production",
     "clean": "rimraf dist && rimraf web-ext-artifacts",
-    "dev": "node script/dev",
+    "dev": "node script/development",
     "format": "prettier . --write",
     "groom": "prettier . --write && eslint . --fix",
     "lint:wext": "web-ext lint --source-dir dist",
     "lint": "eslint . --fix",
     "preinstall": "npx only-allow pnpm",
-    "prepare": "husky"
+    "prepare": "husky",
+    "type-check": "tsc"
   },
   "type": "module",
   "version": "0.1.0"
