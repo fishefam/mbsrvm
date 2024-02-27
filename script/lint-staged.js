@@ -1,8 +1,8 @@
 import { cpSync, readFileSync, writeFileSync } from 'fs'
 import micromatch from 'micromatch'
 
-import { TEMP_TSCONFIG_FILE } from './_constant'
-import { resolvePaths } from './_util'
+import { TEMP_TSCONFIG_FILE } from './_constant.js'
+import { resolvePaths } from './_util.js'
 
 /**
  *
@@ -14,7 +14,7 @@ export function generateTempTSConfig(files) {
   const content = readFileSync(resolvePaths(TEMP_TSCONFIG_FILE), { encoding: 'utf-8' })
   const newContent = content.replace(
     /\}(?![\s\S]*\})/,
-    `,"  files": [${tsFiles.map((file) => `"${file}"`).join(',\n')}]\n}`,
+    `  ,"files": [${tsFiles.map((file) => `"${file}"`).join(',\n')}]\n}`,
   )
   writeFileSync(resolvePaths(TEMP_TSCONFIG_FILE), newContent)
 }
