@@ -7,7 +7,7 @@ export default function config(files) {
   const tsFiles = micromatch(files, ['**/*.ts', '**/*.tsx'])
   generateTempTSConfig(files)
   return [
-    ...(tsFiles.length ? ['tsc --project tsconfig.temp.json'] : []),
+    ...(tsFiles.length ? ['tsc --project .husky/tsconfig.temp.json'] : []),
     `prettier ${files.join(' ')} --write`,
     `eslint ${files.join(' ')} --fix`,
   ]
