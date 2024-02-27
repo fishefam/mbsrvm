@@ -10,11 +10,12 @@ import { resolvePaths } from './_util.js'
  */
 export function generateTempTSConfig(files) {
   const tsFiles = micromatch(files, ['**/*.ts', '**/*.tsx'])
-  cpSync('tsconfig.json', TEMP_TSCONFIG_FILE)
-  const content = readFileSync(resolvePaths(TEMP_TSCONFIG_FILE), { encoding: 'utf-8' })
+  const path = resolvePaths('.husky', TEMP_TSCONFIG_FILE)
+  cpSync('tsconfig.json', path)
+  const content = readFileSync(path, { encoding: 'utf-8' })
   const newContent = content.replace(
     /\}(?![\s\S]*\})/,
-    `  ,"files": [${tsFiles.map((file) => `"${file}"`).join(',\n')}]\n}`,
+    `,"files": [${tsFiles.map((file) => `"${file}"`).join(',\n')}]\n}`,
   )
-  writeFileSync(resolvePaths(TEMP_TSCONFIG_FILE), newContent)
+  writeFileSync(path, newContent)
 }

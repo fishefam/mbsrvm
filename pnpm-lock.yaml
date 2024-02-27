@@ -253,9 +253,6 @@ devDependencies:
   husky:
     specifier: ^9.0.11
     version: 9.0.11
-  i:
-    specifier: ^0.3.7
-    version: 0.3.7
   jsonminify:
     specifier: ^0.4.2
     version: 0.4.2
@@ -265,9 +262,6 @@ devDependencies:
   micromatch:
     specifier: ^4.0.5
     version: 4.0.5
-  npm:
-    specifier: ^10.4.0
-    version: 10.4.0
   postcss:
     specifier: ^8.4.35
     version: 8.4.35
@@ -6523,12 +6517,6 @@ packages:
     hasBin: true
     dev: true
 
-  /i@0.3.7:
-    resolution:
-      { integrity: sha512-FYz4wlXgkQwIPqhzC5TdNMLSE5+GS1IIDJZY/1ZiEPCT2S3COUVZeT5OW4BmW4r5LHLQuOosSwsvnroG9GR59Q== }
-    engines: { node: '>=0.4' }
-    dev: true
-
   /icss-utils@5.1.0(postcss@8.4.35):
     resolution:
       { integrity: sha512-soFhflCVWLfRNOPU3iv5Z9VUdT44xFRbzjLsEzSr5AQmgqPMTHdU3PMT1Cf1ssx8fLNJDA1juftYl+PUcv3MqA== }
@@ -7684,84 +7672,6 @@ packages:
     dependencies:
       path-key: 4.0.0
     dev: true
-
-  /npm@10.4.0:
-    resolution:
-      { integrity: sha512-RS7Mx0OVfXlOcQLRePuDIYdFCVBPCNapWHplDK+mh7GDdP/Tvor4ocuybRRPSvfcRb2vjRJt1fHCqw3cr8qACQ== }
-    engines: { node: ^18.17.0 || >=20.5.0 }
-    hasBin: true
-    dev: true
-    bundledDependencies:
-      - '@isaacs/string-locale-compare'
-      - '@npmcli/arborist'
-      - '@npmcli/config'
-      - '@npmcli/fs'
-      - '@npmcli/map-workspaces'
-      - '@npmcli/package-json'
-      - '@npmcli/promise-spawn'
-      - '@npmcli/run-script'
-      - '@sigstore/tuf'
-      - abbrev
-      - archy
-      - cacache
-      - chalk
-      - ci-info
-      - cli-columns
-      - cli-table3
-      - columnify
-      - fastest-levenshtein
-      - fs-minipass
-      - glob
-      - graceful-fs
-      - hosted-git-info
-      - ini
-      - init-package-json
-      - is-cidr
-      - json-parse-even-better-errors
-      - libnpmaccess
-      - libnpmdiff
-      - libnpmexec
-      - libnpmfund
-      - libnpmhook
-      - libnpmorg
-      - libnpmpack
-      - libnpmpublish
-      - libnpmsearch
-      - libnpmteam
-      - libnpmversion
-      - make-fetch-happen
-      - minimatch
-      - minipass
-      - minipass-pipeline
-      - ms
-      - node-gyp
-      - nopt
-      - normalize-package-data
-      - npm-audit-report
-      - npm-install-checks
-      - npm-package-arg
-      - npm-pick-manifest
-      - npm-profile
-      - npm-registry-fetch
-      - npm-user-validate
-      - npmlog
-      - p-map
-      - pacote
-      - parse-conflict-json
-      - proc-log
-      - qrcode-terminal
-      - read
-      - semver
-      - spdx-expression-parse
-      - ssri
-      - supports-color
-      - tar
-      - text-table
-      - tiny-relative-date
-      - treeverse
-      - validate-npm-package-name
-      - which
-      - write-file-atomic
 
   /nth-check@2.1.1:
     resolution:
